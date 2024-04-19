@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using WebLongChau.Models;
+using WebLongChau.Data;
 
 namespace WebLongChau.Controllers
 {

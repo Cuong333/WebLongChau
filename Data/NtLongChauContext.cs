@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using WebLongChau.Models;
 
-namespace WebLongChau.Models;
+namespace WebLongChau.Data;
 
 public partial class NtLongChauContext : DbContext
 {

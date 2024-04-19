@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+using WebLongChau.Models;
 namespace WebLongChau.Areas.Admin.Controllers
 {
 
@@ -14,6 +14,9 @@ namespace WebLongChau.Areas.Admin.Controllers
         {
             return View();
         }
-
+        //public IActionResult ListProduct()
+        //{
+        //    var listproduct =db
+        //}
     }
 }
