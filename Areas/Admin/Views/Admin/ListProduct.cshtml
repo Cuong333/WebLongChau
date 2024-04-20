@@ -1,0 +1,59 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<WebLongChau.Models.Product>
+
+@{
+    ViewData["Title"] = "ListProduct";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h1>List Product</h1>
+
+<p>
+    <a asp-action="AddProduct">Add new Product</a>
+</p>
+<p>
+    @TempData["Message"]
+</p>
+<table class="table">
+    <thead>
+        <tr class="table-warning">
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                Product Image
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model) 
+            {
+
+                <tr class="table-success">
+                    <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    Product Image
+                </td>
+
+                <td>
+                    <a asp-action="EditProduct" asp-route-ProductId="@item.ProductId">Edit</a> |           
+                    <a asp-action="DeleteProduct" asp-route-ProductId="@item.ProductId">Delete</a>
+                </td>                 
+            </tr>         
+        }
+    </tbody>
+</table>
