@@ -6,7 +6,7 @@ namespace WebLongChau.Controllers
 {
     public class HomeController : Controller
     {
-        NtLongChauContext db = new NtLongChauContext();
+        LongChauWebContext db = new LongChauWebContext();
         private readonly ILogger<HomeController> _logger;
         public HomeController(ILogger<HomeController> logger)
         {

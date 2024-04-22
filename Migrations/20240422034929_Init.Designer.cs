@@ -7,14 +7,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebLongChau.Data;
 
-
 #nullable disable
 
 namespace WebLongChau.Migrations
 {
-    [DbContext(typeof(NtLongChauContext))]
-    [Migration("20240419142521_init")]
-    partial class init
+    [DbContext(typeof(LongChauWebContext))]
+    [Migration("20240422034929_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,25 +28,47 @@ namespace WebLongChau.Migrations
             modelBuilder.Entity("WebLongChau.Models.Admin", b =>
                 {
                     b.Property<int>("AdminId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("AdminID");
 
                     b.Property<string>("Address")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<DateOnly?>("BirthDay")
+                        .HasColumnType("date");
+
                     b.Property<string>("Email")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FirstName")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("Phone")
+                    b.Property<byte?>("Gender")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Password")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int?>("PhoneNumber")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("AdminId");
 
@@ -62,7 +83,8 @@ namespace WebLongChau.Migrations
 
                     b.Property<string>("Description")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
@@ -71,7 +93,7 @@ namespace WebLongChau.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category", (string)null);
                 });
 
             modelBuilder.Entity("WebLongChau.Models.Customer", b =>
@@ -85,15 +107,15 @@ namespace WebLongChau.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<DateOnly?>("BirthDay")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("BirthDay")
+                        .HasColumnType("datetime");
 
-                    b.Property<string>("CustomerName")
+                    b.Property<string>("Email")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("FisrtName")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
@@ -103,8 +125,28 @@ namespace WebLongChau.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("PassWord")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
                     b.Property<int?>("PhoneNumber")
                         .HasColumnType("int");
+
+                    b.Property<string>("Photo")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("CustomerId");
 
@@ -113,9 +155,9 @@ namespace WebLongChau.Migrations
 
             modelBuilder.Entity("WebLongChau.Models.Image", b =>
                 {
-                    b.Property<int>("ImagesId")
+                    b.Property<int>("ImageId")
                         .HasColumnType("int")
-                        .HasColumnName("ImagesID");
+                        .HasColumnName("ImageID");
 
                     b.Property<string>("ImageName")
                         .HasMaxLength(50)
@@ -126,10 +168,7 @@ namespace WebLongChau.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ProductID");
 
-                    b.Property<byte[]>("ProductImage")
-                        .HasColumnType("image");
-
-                    b.HasKey("ImagesId");
+                    b.HasKey("ImageId");
 
                     b.HasIndex("ProductId");
 
@@ -142,23 +181,21 @@ namespace WebLongChau.Migrations
                         .HasColumnType("int")
                         .HasColumnName("OrderID");
 
-                    b.Property<int?>("CustomerId")
+                    b.Property<int?>("CutomerId")
                         .HasColumnType("int")
-                        .HasColumnName("CustomerID");
-
-                    b.Property<DateOnly?>("OrderDate")
-                        .HasColumnType("date");
+                        .HasColumnName("CutomerID");
 
                     b.Property<int?>("PaymentMethodId")
                         .HasColumnType("int")
                         .HasColumnName("PaymentMethodID");
 
                     b.Property<decimal?>("TotalPrice")
-                        .HasColumnType("money");
+                        .HasColumnType("decimal(10, 2)")
+                        .HasColumnName("totalPrice");
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CutomerId");
 
                     b.HasIndex("PaymentMethodId");
 
@@ -171,15 +208,7 @@ namespace WebLongChau.Migrations
                         .HasColumnType("int")
                         .HasColumnName("OrderID");
 
-                    b.Property<DateOnly?>("OrderDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("OrderStatus")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int")
                         .HasColumnName("ProductID");
 
@@ -199,11 +228,7 @@ namespace WebLongChau.Migrations
                         .HasColumnType("int")
                         .HasColumnName("PaymentMethodID");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int")
-                        .HasColumnName("OrderID");
-
-                    b.Property<string>("PaymentType")
+                    b.Property<string>("PaymentMethodType")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
@@ -228,11 +253,13 @@ namespace WebLongChau.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("money");
+                    b.Property<int?>("Price")
+                        .HasColumnType("int");
 
-                    b.Property<byte[]>("ProductImage")
-                        .HasColumnType("image");
+                    b.Property<string>("ProductIamge")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("ProductName")
                         .HasMaxLength(50)
@@ -252,43 +279,17 @@ namespace WebLongChau.Migrations
                     b.ToTable("Product", (string)null);
                 });
 
-            modelBuilder.Entity("WebLongChau.Models.ProductSupplier", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int")
-                        .HasColumnName("ProductID");
-
-                    b.Property<int?>("SupplierId")
-                        .HasColumnType("int")
-                        .HasColumnName("SupplierID");
-
-                    b.HasKey("ProductId");
-
-                    b.HasIndex(new[] { "ProductId" }, "IX_ProductSupplier");
-
-                    b.ToTable("ProductSupplier", (string)null);
-                });
-
             modelBuilder.Entity("WebLongChau.Models.Supplier", b =>
                 {
                     b.Property<int>("SupplierId")
-                        .HasColumnType("int")
-                        .HasColumnName("SupplierID");
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<int?>("PhoneNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("SupplierName")
+                    b.Property<string>("Description")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Name")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
@@ -310,9 +311,9 @@ namespace WebLongChau.Migrations
 
             modelBuilder.Entity("WebLongChau.Models.Order", b =>
                 {
-                    b.HasOne("WebLongChau.Models.Customer", "Customer")
+                    b.HasOne("WebLongChau.Models.Customer", "Cutomer")
                         .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("CutomerId")
                         .HasConstraintName("FK_Order_Customer");
 
                     b.HasOne("WebLongChau.Models.PaymentMethod", "PaymentMethod")
@@ -320,7 +321,7 @@ namespace WebLongChau.Migrations
                         .HasForeignKey("PaymentMethodId")
                         .HasConstraintName("FK_Order_PaymentMethod");
 
-                    b.Navigation("Customer");
+                    b.Navigation("Cutomer");
 
                     b.Navigation("PaymentMethod");
                 });
@@ -336,7 +337,6 @@ namespace WebLongChau.Migrations
                     b.HasOne("WebLongChau.Models.Product", "Product")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
-                        .IsRequired()
                         .HasConstraintName("FK_OrderDetail_Product");
 
                     b.Navigation("Order");
@@ -349,7 +349,7 @@ namespace WebLongChau.Migrations
                     b.HasOne("WebLongChau.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .HasConstraintName("FK_Product_Categories");
+                        .HasConstraintName("FK_Product_Category");
 
                     b.HasOne("WebLongChau.Models.Supplier", "Supplier")
                         .WithMany("Products")

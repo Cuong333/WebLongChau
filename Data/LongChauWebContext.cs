@@ -5,13 +5,13 @@ using WebLongChau.Models;
 
 namespace WebLongChau.Data;
 
-public partial class NtLongChauContext : DbContext
+public partial class LongChauWebContext : DbContext
 {
-    public NtLongChauContext()
+    public LongChauWebContext()
     {
     }
 
-    public NtLongChauContext(DbContextOptions<NtLongChauContext> options)
+    public LongChauWebContext(DbContextOptions<LongChauWebContext> options)
         : base(options)
     {
     }
@@ -32,13 +32,11 @@ public partial class NtLongChauContext : DbContext
 
     public virtual DbSet<Product> Products { get; set; }
 
-    public virtual DbSet<ProductSupplier> ProductSuppliers { get; set; }
-
     public virtual DbSet<Supplier> Suppliers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=CUONGSEVEN\\MSSQLSERVER01;Initial Catalog=ntLongChau;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+        => optionsBuilder.UseSqlServer("Data Source=CUONGSEVEN\\MSSQLSERVER01;Initial Catalog=LongChauWeb;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -46,24 +44,39 @@ public partial class NtLongChauContext : DbContext
         {
             entity.ToTable("Admin");
 
-            entity.Property(e => e.AdminId).ValueGeneratedNever();
+            entity.Property(e => e.AdminId)
+                .ValueGeneratedNever()
+                .HasColumnName("AdminID");
             entity.Property(e => e.Address)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Name)
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Password)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UserName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });
 
         modelBuilder.Entity<Category>(entity =>
         {
+            entity.ToTable("Category");
+
             entity.Property(e => e.CategoryId)
                 .ValueGeneratedNever()
                 .HasColumnName("CategoryID");
-            entity.Property(e => e.Description).HasMaxLength(50);
+            entity.Property(e => e.Description)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -79,31 +92,41 @@ public partial class NtLongChauContext : DbContext
             entity.Property(e => e.Address)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.CustomerName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.BirthDay).HasColumnType("datetime");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.FisrtName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.Gender)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.PassWord)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Photo)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UserName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });
 
         modelBuilder.Entity<Image>(entity =>
         {
-            entity.HasKey(e => e.ImagesId);
-
             entity.ToTable("Image");
 
-            entity.Property(e => e.ImagesId)
+            entity.Property(e => e.ImageId)
                 .ValueGeneratedNever()
-                .HasColumnName("ImagesID");
+                .HasColumnName("ImageID");
             entity.Property(e => e.ImageName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
-            entity.Property(e => e.ProductImage).HasColumnType("image");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Images)
                 .HasForeignKey(d => d.ProductId)
@@ -117,12 +140,14 @@ public partial class NtLongChauContext : DbContext
             entity.Property(e => e.OrderId)
                 .ValueGeneratedNever()
                 .HasColumnName("OrderID");
-            entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+            entity.Property(e => e.CutomerId).HasColumnName("CutomerID");
             entity.Property(e => e.PaymentMethodId).HasColumnName("PaymentMethodID");
-            entity.Property(e => e.TotalPrice).HasColumnType("money");
+            entity.Property(e => e.TotalPrice)
+                .HasColumnType("decimal(10, 2)")
+                .HasColumnName("totalPrice");
 
-            entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.CustomerId)
+            entity.HasOne(d => d.Cutomer).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.CutomerId)
                 .HasConstraintName("FK_Order_Customer");
 
             entity.HasOne(d => d.PaymentMethod).WithMany(p => p.Orders)
@@ -139,9 +164,6 @@ public partial class NtLongChauContext : DbContext
             entity.Property(e => e.OrderId)
                 .ValueGeneratedNever()
                 .HasColumnName("OrderID");
-            entity.Property(e => e.OrderStatus)
-                .HasMaxLength(50)
-                .IsUnicode(false);
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
             entity.HasOne(d => d.Order).WithOne(p => p.OrderDetail)
@@ -151,7 +173,6 @@ public partial class NtLongChauContext : DbContext
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_OrderDetail_Product");
         });
 
@@ -162,8 +183,7 @@ public partial class NtLongChauContext : DbContext
             entity.Property(e => e.PaymentMethodId)
                 .ValueGeneratedNever()
                 .HasColumnName("PaymentMethodID");
-            entity.Property(e => e.OrderId).HasColumnName("OrderID");
-            entity.Property(e => e.PaymentType)
+            entity.Property(e => e.PaymentMethodType)
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });
@@ -179,8 +199,9 @@ public partial class NtLongChauContext : DbContext
             entity.Property(e => e.Description)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Price).HasColumnType("money");
-            entity.Property(e => e.ProductImage).HasColumnType("image");
+            entity.Property(e => e.ProductIamge)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.ProductName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -188,41 +209,22 @@ public partial class NtLongChauContext : DbContext
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK_Product_Categories");
+                .HasConstraintName("FK_Product_Category");
 
             entity.HasOne(d => d.Supplier).WithMany(p => p.Products)
                 .HasForeignKey(d => d.SupplierId)
                 .HasConstraintName("FK_Product_Supplier");
         });
 
-        modelBuilder.Entity<ProductSupplier>(entity =>
-        {
-            entity.HasKey(e => e.ProductId);
-
-            entity.ToTable("ProductSupplier");
-
-            entity.HasIndex(e => e.ProductId, "IX_ProductSupplier");
-
-            entity.Property(e => e.ProductId)
-                .ValueGeneratedNever()
-                .HasColumnName("ProductID");
-            entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
-        });
-
         modelBuilder.Entity<Supplier>(entity =>
         {
             entity.ToTable("Supplier");
 
-            entity.Property(e => e.SupplierId)
-                .ValueGeneratedNever()
-                .HasColumnName("SupplierID");
-            entity.Property(e => e.Address)
+            entity.Property(e => e.SupplierId).ValueGeneratedNever();
+            entity.Property(e => e.Description)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.Email)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.SupplierName)
+            entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .IsUnicode(false);
         });

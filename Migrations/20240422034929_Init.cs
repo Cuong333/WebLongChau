@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebLongChau.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,28 +15,33 @@ namespace WebLongChau.Migrations
                 name: "Admin",
                 columns: table => new
                 {
-                    AdminId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    AdminID = table.Column<int>(type: "int", nullable: false),
+                    UserName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    Password = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    FirstName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    LastName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    BirthDay = table.Column<DateOnly>(type: "date", nullable: true),
+                    Gender = table.Column<byte>(type: "tinyint", nullable: true),
                     Email = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    Phone = table.Column<int>(type: "int", nullable: true),
-                    Address = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
+                    Address = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    PhoneNumber = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Admin", x => x.AdminId);
+                    table.PrimaryKey("PK_Admin", x => x.AdminID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Category",
                 columns: table => new
                 {
                     CategoryID = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    Description = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryID);
+                    table.PrimaryKey("PK_Category", x => x.CategoryID);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,12 +49,16 @@ namespace WebLongChau.Migrations
                 columns: table => new
                 {
                     CustomerID = table.Column<int>(type: "int", nullable: false),
-                    CustomerName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    UserName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    PassWord = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    FisrtName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    LastName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    BirthDay = table.Column<DateTime>(type: "datetime", nullable: true),
+                    Gender = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     PhoneNumber = table.Column<int>(type: "int", nullable: true),
                     Address = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    Gender = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    BirthDay = table.Column<DateOnly>(type: "date", nullable: true),
-                    Email = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
+                    Photo = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -61,8 +70,7 @@ namespace WebLongChau.Migrations
                 columns: table => new
                 {
                     PaymentMethodID = table.Column<int>(type: "int", nullable: false),
-                    PaymentType = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    OrderID = table.Column<int>(type: "int", nullable: true)
+                    PaymentMethodType = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -70,30 +78,16 @@ namespace WebLongChau.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductSupplier",
-                columns: table => new
-                {
-                    ProductID = table.Column<int>(type: "int", nullable: false),
-                    SupplierID = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductSupplier", x => x.ProductID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Supplier",
                 columns: table => new
                 {
-                    SupplierID = table.Column<int>(type: "int", nullable: false),
-                    SupplierName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    Address = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    PhoneNumber = table.Column<int>(type: "int", nullable: true),
-                    Email = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
+                    SupplierId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
+                    Description = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Supplier", x => x.SupplierID);
+                    table.PrimaryKey("PK_Supplier", x => x.SupplierId);
                 });
 
             migrationBuilder.CreateTable(
@@ -101,9 +95,8 @@ namespace WebLongChau.Migrations
                 columns: table => new
                 {
                     OrderID = table.Column<int>(type: "int", nullable: false),
-                    CustomerID = table.Column<int>(type: "int", nullable: true),
-                    OrderDate = table.Column<DateOnly>(type: "date", nullable: true),
-                    TotalPrice = table.Column<decimal>(type: "money", nullable: true),
+                    CutomerID = table.Column<int>(type: "int", nullable: true),
+                    totalPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
                     PaymentMethodID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -111,7 +104,7 @@ namespace WebLongChau.Migrations
                     table.PrimaryKey("PK_Order", x => x.OrderID);
                     table.ForeignKey(
                         name: "FK_Order_Customer",
-                        column: x => x.CustomerID,
+                        column: x => x.CutomerID,
                         principalTable: "Customer",
                         principalColumn: "CustomerID");
                     table.ForeignKey(
@@ -128,38 +121,37 @@ namespace WebLongChau.Migrations
                     ProductID = table.Column<int>(type: "int", nullable: false),
                     ProductName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     Description = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    Price = table.Column<decimal>(type: "money", nullable: true),
+                    Price = table.Column<int>(type: "int", nullable: true),
                     SupplierID = table.Column<int>(type: "int", nullable: true),
                     CategoryID = table.Column<int>(type: "int", nullable: true),
-                    ProductImage = table.Column<byte[]>(type: "image", nullable: true)
+                    ProductIamge = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product", x => x.ProductID);
                     table.ForeignKey(
-                        name: "FK_Product_Categories",
+                        name: "FK_Product_Category",
                         column: x => x.CategoryID,
-                        principalTable: "Categories",
+                        principalTable: "Category",
                         principalColumn: "CategoryID");
                     table.ForeignKey(
                         name: "FK_Product_Supplier",
                         column: x => x.SupplierID,
                         principalTable: "Supplier",
-                        principalColumn: "SupplierID");
+                        principalColumn: "SupplierId");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Image",
                 columns: table => new
                 {
-                    ImagesID = table.Column<int>(type: "int", nullable: false),
+                    ImageID = table.Column<int>(type: "int", nullable: false),
                     ProductID = table.Column<int>(type: "int", nullable: true),
-                    ImageName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    ProductImage = table.Column<byte[]>(type: "image", nullable: true)
+                    ImageName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Image", x => x.ImagesID);
+                    table.PrimaryKey("PK_Image", x => x.ImageID);
                     table.ForeignKey(
                         name: "FK_Image_Product",
                         column: x => x.ProductID,
@@ -172,10 +164,8 @@ namespace WebLongChau.Migrations
                 columns: table => new
                 {
                     OrderID = table.Column<int>(type: "int", nullable: false),
-                    ProductID = table.Column<int>(type: "int", nullable: false),
-                    Quanity = table.Column<int>(type: "int", nullable: true),
-                    OrderDate = table.Column<DateOnly>(type: "date", nullable: true),
-                    OrderStatus = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true)
+                    ProductID = table.Column<int>(type: "int", nullable: true),
+                    Quanity = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -198,9 +188,9 @@ namespace WebLongChau.Migrations
                 column: "ProductID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_CustomerID",
+                name: "IX_Order_CutomerID",
                 table: "Order",
-                column: "CustomerID");
+                column: "CutomerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_PaymentMethodID",
@@ -221,11 +211,6 @@ namespace WebLongChau.Migrations
                 name: "IX_Product_SupplierID",
                 table: "Product",
                 column: "SupplierID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductSupplier",
-                table: "ProductSupplier",
-                column: "ProductID");
         }
 
         /// <inheritdoc />
@@ -241,9 +226,6 @@ namespace WebLongChau.Migrations
                 name: "OrderDetail");
 
             migrationBuilder.DropTable(
-                name: "ProductSupplier");
-
-            migrationBuilder.DropTable(
                 name: "Order");
 
             migrationBuilder.DropTable(
@@ -256,7 +238,7 @@ namespace WebLongChau.Migrations
                 name: "PaymentMethod");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Category");
 
             migrationBuilder.DropTable(
                 name: "Supplier");

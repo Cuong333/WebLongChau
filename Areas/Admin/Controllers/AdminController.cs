@@ -13,7 +13,7 @@ namespace WebLongChau.Areas.Admin.Controllers
     [Route("admin/homeadmin")]
     public class AdminController : Controller
     {
-        NtLongChauContext db=new NtLongChauContext();
+        LongChauWebContext db=new LongChauWebContext();
         [Route("")]
         [Route("index")]
         public IActionResult Index()
@@ -51,17 +51,19 @@ namespace WebLongChau.Areas.Admin.Controllers
             }
             return View(product);
         }
-
         // Edit Product
         [Route("EditProduct")]
         [HttpGet]
-        public IActionResult EditProduct(int ProductId)
+        public IActionResult EditProduct(int productId)
         {
-            ViewBag.SupplierId = new SelectList(db.Suppliers.ToList(), "SupplierId", "SupplierName");
-            ViewBag.CategoryId = new SelectList(db.Categories.ToList(), "CategoryId", "Name");
-            var product = db.Products.Find(ProductId);
+            var product = db.Products.Find(productId);
+            if (product == null)
+            {
+                return RedirectToAction("ListProduct", "HomeAdmin");
+            }
             return View(product);
         }
+
         [Route("EditProduct")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -69,28 +71,27 @@ namespace WebLongChau.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(product).State = EntityState.Modified;
+                db.Products.Update(product);
                 db.SaveChanges();
-                return RedirectToAction("ListProduct","HomeAdmin");
+                return RedirectToAction("ListProduct", "HomeAdmin");
             }
             return View(product);
         }
+
         // Delete Product
+        [Route("DeleteProduct")]
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public IActionResult DeleteProduct(int productId)
         {
-            TempData["Message"] = "";
             var product = db.Products.Find(productId);
             if (product == null)
             {
-                TempData["Message"] = "Can not delete product";
-                return NotFound();
+                return RedirectToAction("ListProduct", "HomeAdmin");
             }
 
             db.Products.Remove(product);
             db.SaveChanges();
-            TempData["Message"] = "Delete product successfull";
+
             return RedirectToAction("ListProduct", "HomeAdmin");
         }
 

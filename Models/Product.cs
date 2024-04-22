@@ -11,15 +11,15 @@ public partial class Product
 
     public string? Description { get; set; }
 
-    public decimal? Price { get; set; }
+    public int? Price { get; set; }
 
     public int? SupplierId { get; set; }
 
     public int? CategoryId { get; set; }
 
-    public byte[]? ProductImage { get; set; }
+    public string? ProductIamge { get; set; }
 
-    public virtual Category Category { get; set; }
+    public virtual Category? Category { get; set; }
 
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();
 
