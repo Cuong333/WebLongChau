@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
     using WebLongChau.Data;
 
 namespace WebLongChau.Controllers
 {
+    //[Authorize]
     public class HomeController : Controller
     {
         LongChauWebContext db = new LongChauWebContext();

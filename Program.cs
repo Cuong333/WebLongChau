@@ -1,9 +1,31 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using WebLongChau.Data;
+using WebLongChau.Models;
 
+var builder = WebApplication.CreateBuilder(args);
+//var ConnectionString = builder.Configuration.GetConnectionString("LongChauWebContextConnection");
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//builder.Services.AddDbContext<LongChauWebContext>(
+//    options => options.UseSqlServer(ConnectionString));
+
+//builder.Services.AddIdentity<Customer, IdentityRole>(
+//    options =>
+//    {
+//        options.Password.RequiredUniqueChars = 0;
+//        options.Password.RequireUppercase = false;
+//        options.Password.RequiredLength = 8;
+//        options.Password.RequireLowercase = false;
+//        options.Password.RequireNonAlphanumeric = false;
+
+//    }).AddDefaultTokenProviders();
+    
+//builder.Services.AddSession();
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -19,6 +41,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",

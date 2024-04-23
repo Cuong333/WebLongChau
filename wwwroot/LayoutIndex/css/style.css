@@ -178,7 +178,7 @@ ol {
 	text-transform: uppercase;
 	display: inline-block;
 	padding: 13px 30px 12px;
-	background: #7fad39;
+	background: #007bffd4;
 	border: none;
 }
 
@@ -397,15 +397,18 @@ ol {
 	display: inline-block;
 }
 
-.header__top__right__auth a {
-	display: block;
-	font-size: 14px;
-	color: #1c1c1c;
-}
+	.header__top__right__auth a {
+		display: inline-block;
+		font-size: 14px;
+		color: #1c1c1c;
+		margin-right: 10px; /* Adjust spacing between links if needed */
+	}
 
-.header__top__right__auth a i {
-	margin-right: 6px;
-}
+		.header__top__right__auth a i {
+			margin-right: 6px;
+		}
+
+
 
 .header__logo {
 	padding: 15px 0;
@@ -587,7 +590,7 @@ ol {
 }
 
 .hero__categories__all {
-	background: #7fad39;
+	background: #007bffd4;
 	position: relative;
 	padding: 10px 25px 10px 40px;
 	cursor: pointer;
