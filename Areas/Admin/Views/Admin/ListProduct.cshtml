@@ -8,7 +8,7 @@
 <h1>List Product</h1>
 
 <p>
-    <a asp-action="AddProduct">Add new Product</a>
+    <a type="button" class="btn btn-success" asp-action="AddProduct">Add new Product</a>
 </p>
 <p>
     @TempData["Message"]
@@ -24,14 +24,13 @@
             </th>
             <th>
                 Price
-            </th>
-            <th>
-                Image
-            </th>
+            </th>     
             <th>
                 @Html.DisplayNameFor(model => model.ProductIamge)
             </th>
-            <th></th>
+            <th>
+                Action
+            </th>
         </tr>
     </thead>
     <tbody>
