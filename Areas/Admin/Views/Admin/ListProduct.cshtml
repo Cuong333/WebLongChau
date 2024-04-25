@@ -8,7 +8,7 @@
 <h1>List Product</h1>
 
 <p>
-    <a asp-action="AddProduct">Add new Product</a>
+     <a type="button" class="btn btn-success" asp-action="AddProduct">Add new Product</a> 
 </p>
 <p>
     @TempData["Message"]
@@ -17,25 +17,27 @@
     <thead>
         <tr class="table-warning">
             <th>
-                @Html.DisplayNameFor(model => model.ProductName)
+               Product Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+               Description
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                Price
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductIamge)
+                Image
             </th>
-            <th></th>
+            <th>
+                Action
+            </th>
         </tr>
     </thead>
     <tbody>
             @foreach (var item in Model) 
             {
 
-                <tr class="table-success">
+            <tr class="table-secondary">
                     <td>
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
@@ -50,8 +52,8 @@
                 </td>
 
                 <td>
-                    <a asp-action="EditProduct" asp-route-ProductId="@item.ProductId">Edit</a> |           
-                    <a asp-action="DeleteProduct" asp-route-ProductId="@item.ProductId">Delete</a>
+                     <a type="button" class="btn btn-success" asp-action="EditProduct" asp-route-ProductId="@item.ProductId">Edit</a> | 
+                     <a type="button" class="btn btn-danger" asp-action="DeleteProduct" asp-route-ProductId="@item.ProductId">Delete</a> 
                 </td>                 
             </tr>         
         }

@@ -9,8 +9,8 @@ namespace WebLongChau.Areas.Admin.Controllers
 {
 
     [Area("admin")]
-    [Route("admin")]
-    [Route("admin/Index")]
+    [Route("admin/")]
+    //[Route("admin/Index")]
     public class AdminController : Controller
     {
         LongChauWebContext db=new LongChauWebContext();

@@ -4244,14 +4244,16 @@ textarea.form-control-lg {
     pointer-events: none;
     opacity: 0.65; }
 
-.btn-primary {
-  color: #000;
-  background-color: #b66dff;
-  border-color: #b66dff; }
-  .btn-primary:hover {
+.btn btn-primary {
     color: #000;
-    background-color: #c183ff;
-    border-color: #bd7cff; }
+    background-color: #0c6ce3;
+    border-color: #0c6ce3;
+}
+.bnt btn-primary:hover {
+    color: #000;
+    background-color: #0c6ce3;
+    border-color: #0c6ce3;
+}
   .btn-check:focus + .btn-primary, .btn-primary:focus {
     color: #000;
     background-color: #c183ff;
@@ -12014,7 +12016,7 @@ code {
 
 /* Buttons */
 .btn {
-  font-size: 0.875rem;
+  font-size: 0.6rem;
   line-height: 1;
   font-family: "ubuntu-bold", sans-serif;
   /* Buttons with only icons */
