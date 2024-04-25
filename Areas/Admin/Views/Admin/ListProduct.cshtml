@@ -8,7 +8,7 @@
 <h1>List Product</h1>
 
 <p>
-    <a asp-action="AddProduct">Add new Product</a>
+    <a asp-action="AddProduct" class="btn btn-primary">Add new Product</a>
 </p>
 <p>
     @TempData["Message"]
@@ -27,8 +27,8 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ProductIamge)
-            </th>
-            <th></th>
+            </th> 
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -45,9 +45,21 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
-                <td>
-                    @Html.DisplayNameFor(model => model.ProductIamge)
+                 <td>
+                    @if (!string.IsNullOrEmpty(item.ProductIamge))
+                    {
+                        <img src="@Url.Content(item.ProductIamge)" alt="" style="max-width: 100px; max-height: 100px;" />
+                    }
+                    else
+                    {
+                        <span>No image available</span>
+                    }
                 </td>
+
+
+               @*  <td>
+                    @Html.DisplayNameFor(model => model.ProductIamge)
+                </td> *@
 
                 <td>
                     <a asp-action="EditProduct" asp-route-ProductId="@item.ProductId">Edit</a> |           
