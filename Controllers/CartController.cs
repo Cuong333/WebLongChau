@@ -20,10 +20,10 @@ namespace WebLongChau.Controllers
         {
             return View(Cart);
         }
-        public IActionResult AddToCart(int ProductID, int Quantity = 1)
+        public IActionResult AddToCart(int ProductId, int Quantity = 1)
         {
             var Mycart = Cart;
-            var item = Mycart.SingleOrDefault(p => p.ProductID == ProductID);
+            var item = Mycart.SingleOrDefault(p => p.ProductId == ProductId);
             /*if (item = null)
             {
                 var Product = db.Products.SingleOrDefault(p => p.ProductId == ProductID);
