@@ -22,6 +22,13 @@ namespace WebLongChau.Controllers
 
         }
 
+        [Route("/404")]
+        public IActionResult PageNotfound()
+        {
+            return View();
+
+        }
+
         public IActionResult Privacy()
         {
             return View();

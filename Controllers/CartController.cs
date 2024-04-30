@@ -24,15 +24,30 @@ namespace WebLongChau.Controllers
         {
             var Mycart = Cart;
             var item = Mycart.SingleOrDefault(p => p.ProductId == ProductId);
-            /*if (item = null)
+            if (item == null)
             {
-                var Product = db.Products.SingleOrDefault(p => p.ProductId == ProductID);
-                if (Product = null)
+                var product = db.Products.SingleOrDefault(p => p.ProductId == ProductId);
+                if (product == null)
                 {
-                    return NotFound;
+                    TempData["Message"] = $"Product with code not found{ProductId}";
+                    return Redirect("/404");
                 }
-            }*/
-            return View();
+                item = new Cartitem
+                {
+                    ProductId = product.ProductId,
+                    ProductName = product.ProductName,
+                    Price = product.Price ?? 0,
+                    ProductIamge = product.ProductIamge ?? string.Empty,
+                    Quantity = Quantity
+                };
+                Mycart.Add(item);
+            }
+            else
+            {
+                item.Quantity += Quantity;
+            }
+            HttpContext.Session.Set(Cart_key, Mycart);
+            return RedirectToAction("Index");
         }
     }
 }
