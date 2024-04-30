@@ -36,6 +36,5 @@ namespace WebLongChau.Controllers
             return View(product); // Pass the product object instead of ProductId
         }
 
-
     }
 }
