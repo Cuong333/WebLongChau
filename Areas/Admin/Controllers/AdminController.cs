@@ -84,15 +84,15 @@ namespace WebLongChau.Areas.Admin.Controllers
             var product = db.Products.Find(productId);
             if (product == null)
             {
+                TempData["Message"] = "Product not found.";
                 return RedirectToAction("ListProduct");
             }
 
+
             db.Products.Remove(product);
             db.SaveChanges();
-
+            TempData["ConfirmMessage"] = $"Are you sure you want to delete the product '{product.ProductName}'?";
             return RedirectToAction("ListProduct");
         }
-       
-
     }
 }

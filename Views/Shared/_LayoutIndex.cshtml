@@ -57,10 +57,10 @@
                                     <li><a href="#">English</a></li>
                                 </ul>
                             </div>
-                            <div class="header__top__right__auth">
-                                <a method="post" asp-action="Register"><i class="fa fa-user"></i>Register</a>  |
-                                <a method="post" asp-action="Login"><i></i> Login</a> 
-                            </div>
+                             <div class="header__top__right__auth">
+                                 <a asp-controller="Account" asp-action="Register"><i class="fa fa-user"></i>Register</a>  |
+                                 <a asp-controller="Account" asp-action="Login"><i></i> Login</a>
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -176,24 +176,7 @@
         </div>
     </section>
     <!-- Featured Section End -->
-    <!-- Banner Begin -->
-    <div class="banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="banner__pic">
-                        <img src="~/productimage/img/abc.png" />
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="banner__pic">
-                        <img src="~/productimage/img/tiemchung.png" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Banner End -->
+
     <!-- Latest Product Section Begin -->
     <section class="latest-product spad">
         <div class="container">
@@ -211,8 +194,8 @@
                                         <h6>Crab Pool Security</h6>
                                         <span>$30.00</span>
                                     </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
+                                </a> 
+                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
                                         <img src="~/productimage/img/viennang.png" />
                                     </div>
@@ -390,7 +373,7 @@
                                     </div>
                                 </a>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </div>

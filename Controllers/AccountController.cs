@@ -1,53 +1,111 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using WebLongChau.Models;
+using WebLongChau.Data;
+using System.Linq;
 
 public class AccountController : Controller
 {
-    ////private readonly SignInManager<Customer> _signInManager;
+    private readonly LongChauWebContext _context;
 
-    ////public AccountController(SignInManager<Customer> signInManager)
-    ////{
-    ////    _signInManager = signInManager;
-    ////}
-
-    ////[HttpPost]
-    ////public async Task<IActionResult> LoginAsync(Customer customer)
-    ////{
-    ////    if (ModelState.IsValid)
-    ////    {
-    ////        // Login
-    ////        var result = await _signInManager.PasswordSignInAsync(customer.UserName, customer.PassWord, isPersistent: false, lockoutOnFailure: false);
-
-    ////        if (result.Succeeded)
-    ////        {
-    ////            return RedirectToAction("Index", "Home");
-    ////        }
-    ////        else
-    ////        {
-    ////            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-    ////            return View();
-    ////        }
-    ////    }
-    ////    else
-    ////    {
-    ////        // Model is not valid, return the view with validation errors
-    ////        return View();
-    //    }
-
-    ////}
-        public IActionResult Login(Customer customer)
+    public AccountController(LongChauWebContext context)
+    {
+        _context = context;
+    }
+    // Login
+    [HttpGet]
+    public IActionResult Login()
+    {
+        if (HttpContext.Session.GetString("UserName") == null)
         {
             return View();
         }
-        public IActionResult Register()
+        else
         {
-            return View();
-        }
-        public IActionResult Logout()
-        {
-            return View("Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 
+    [HttpPost]
+    public IActionResult Login(Customer customer)
+    {
+        if (HttpContext.Session.GetString("UserName") == null)
+        {
+            var u = _context.Customers.FirstOrDefault(x => x.UserName.Equals(customer.UserName) && x.PassWord.Equals(customer.PassWord));
+
+            if (u != null)
+            {
+                HttpContext.Session.SetString("UserName", u.UserName);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid username or password");
+                return View();
+            }
+        }
+        else
+        {
+            return RedirectToAction("Index", "Home");
+        }
+    }
+    // Register
+    private bool CustomerExists(string userName)
+    {
+        return _context.Customers.Any(e => e.UserName == userName);
+    }
+    [HttpGet]
+    public IActionResult Register()
+    {
+        if (HttpContext.Session.GetString("UserName") == null)
+        {
+            return View();
+        }
+        else
+        {
+            return RedirectToAction("Index", "Home");
+        }
+    }
+
+    [HttpPost]
+    public IActionResult Register(Customer customer)
+    {
+        if (HttpContext.Session.GetString("UserName") == null)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!CustomerExists(customer.UserName))
+                {
+                    _context.Customers.Add(customer);
+                    _context.SaveChanges();
+                    HttpContext.Session.SetString("UserName", customer.UserName);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "User already exists!");
+                    return View(customer);
+                }
+            }
+            else
+            {
+                return View(customer);
+            }
+        }
+        else
+        {
+            return RedirectToAction("Index", "Home");
+        }
+    }
+
+
+
+
+    // LogOut
+    [HttpGet]
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Remove("UserName");
+        return RedirectToAction("Index", "Home");
+    }
+}
