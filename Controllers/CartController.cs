@@ -20,6 +20,8 @@ namespace WebLongChau.Controllers
         {
             return View(Cart);
         }
+        [Route("AddToCart")]
+        [HttpPost] 
         public IActionResult AddToCart(int ProductId, int Quantity = 1)
         {
             var Mycart = Cart;
