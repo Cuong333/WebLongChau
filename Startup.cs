@@ -7,35 +7,41 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddControllersWithViews();
-        services.AddSession(); // Add session middleware
+        services.AddDistributedMemoryCache(); 
+
+        services.AddSession(options => 
+        {
+            options.IdleTimeout = TimeSpan.FromMinutes(30); 
+            options.Cookie.HttpOnly = true; 
+            options.Cookie.IsEssential = true; 
+        });
+
+        services.AddControllersWithViews(); 
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
         {
-            app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage(); 
         }
         else
         {
-            app.UseExceptionHandler("/Home/Error");
-            app.UseHsts();
+            app.UseExceptionHandler("/Home/Error"); 
+            app.UseHsts(); 
         }
 
+        app.UseHttpsRedirection(); 
+        app.UseStaticFiles(); 
 
-        app.UseHttpsRedirection();
-        app.UseStaticFiles();
+        app.UseRouting(); 
 
-        app.UseRouting();
+        app.UseSession();
+        app.UseAuthorization(); 
 
-        app.UseSession(); // Use session middleware
-
-        app.UseAuthorization();
-
-        app.UseEndpoints(endpoints =>
+        app.UseEndpoints(endpoints => 
         {
-            endpoints.MapControllerRoute(
+            endpoints.MapControllerRoute( 
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
         });

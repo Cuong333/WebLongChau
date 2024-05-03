@@ -73,15 +73,6 @@
                                 <div class="text-center mt-4 font-weight-light">
                                     Already have an account? <a asp-action="Login" class="text-primary">Login</a>
                                 </div>
-                                @if (!ViewData.ModelState.IsValid)
-                                {
-                                    <div class="alert alert-danger">
-                                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                                        {
-                                            <p>@error.ErrorMessage</p>
-                                        }
-                                    </div>
-                                }
                             </form>
 
                         </div>

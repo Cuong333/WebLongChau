@@ -3,35 +3,34 @@ using Microsoft.AspNetCore.Http;
 using WebLongChau.Models;
 using WebLongChau.Data;
 using System.Linq;
+using WebLongChau.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly LongChauWebContext _context;
 
-    public AccountController(LongChauWebContext context)
+    LongChauWebContext db = new LongChauWebContext();
+    private readonly ILogger<AccountController> _logger;
+    public AccountController(ILogger<AccountController> logger)
     {
-        _context = context;
+        _logger = logger;
     }
     // Login
     [HttpGet]
     public IActionResult Login()
     {
-        if (HttpContext.Session.GetString("UserName") == null)
-        {
-            return View();
-        }
-        else
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserName")))
         {
             return RedirectToAction("Index", "Home");
         }
+        return View();
     }
 
     [HttpPost]
     public IActionResult Login(Customer customer)
     {
-        if (HttpContext.Session.GetString("UserName") == null)
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserName")))
         {
-            var u = _context.Customers.FirstOrDefault(x => x.UserName.Equals(customer.UserName) && x.PassWord.Equals(customer.PassWord));
+            var u = db.Customers.FirstOrDefault(x => x.UserName == customer.UserName && x.PassWord == customer.PassWord);
 
             if (u != null)
             {
@@ -49,10 +48,12 @@ public class AccountController : Controller
             return RedirectToAction("Index", "Home");
         }
     }
+
+
     // Register
     private bool CustomerExists(string userName)
     {
-        return _context.Customers.Any(e => e.UserName == userName);
+        return db.Customers.Any(e => e.UserName == userName);
     }
     [HttpGet]
     public IActionResult Register()
@@ -66,40 +67,33 @@ public class AccountController : Controller
             return RedirectToAction("Index", "Home");
         }
     }
-
     [HttpPost]
     public IActionResult Register(Customer customer)
     {
-        if (HttpContext.Session.GetString("UserName") == null)
+        try
         {
             if (ModelState.IsValid)
             {
                 if (!CustomerExists(customer.UserName))
                 {
-                    _context.Customers.Add(customer);
-                    _context.SaveChanges();
+                    db.Customers.Add(customer);
+                    db.SaveChanges();
                     HttpContext.Session.SetString("UserName", customer.UserName);
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "User already exists!");
-                    return View(customer);
+                    ModelState.AddModelError("", "Username already exists!");
                 }
             }
-            else
-            {
-                return View(customer);
-            }
+            return View(customer);
         }
-        else
+        catch (Exception ex)
         {
-            return RedirectToAction("Index", "Home");
+            ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
+            return View(customer);
         }
     }
-
-
-
 
     // LogOut
     [HttpGet]
