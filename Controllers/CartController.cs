@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 using WebLongChau.Data;
 using WebLongChau.Models;
 using WebLongChau.Helpers;
 
 namespace WebLongChau.Controllers
 {
+    
+    [Route("AddToCart")]
     public class CartController : Controller
     {
         private readonly LongChauWebContext db;
@@ -13,15 +17,19 @@ namespace WebLongChau.Controllers
         {
             db = context;
         }
+
         const string Cart_key = "MyCart";
-        public List<Cartitem> Cart => HttpContext.Session.Get<List<Cartitem>>(Cart_key) 
+
+        public List<Cartitem> Cart => HttpContext.Session.Get<List<Cartitem>>(Cart_key)
             ?? new List<Cartitem>();
+
+        [HttpGet]
         public IActionResult Index()
         {
             return View(Cart);
         }
-        [Route("AddToCart")]
-        [HttpPost] 
+
+        [HttpPost]
         public IActionResult AddToCart(int ProductId, int Quantity = 1)
         {
             var Mycart = Cart;

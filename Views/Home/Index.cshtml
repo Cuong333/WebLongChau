@@ -3,6 +3,7 @@
     ViewData["Title"] = "HomePage";
     Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model  List<Product>
 @foreach (var item in Model)
 {
@@ -22,12 +23,14 @@
                     <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                     <li>
                         <a method="post" asp-action="AddToCart" asp-controller="Cart" asp-route-ProductId="@item.ProductId">
-                        <i class="fa fa-shopping-cart"></i></a></li>
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="featured__item__text">
                 <h6><a asp-controller="Home" asp-action="ProductDetail" asp-route-ProductId="@item.ProductId">@item.ProductName</a></h6>
-                <h5>$@item.Price </h5>
+                <h5>$@item.Price</h5>
             </div>
         </div>
     </div>
