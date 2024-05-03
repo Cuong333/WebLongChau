@@ -1,0 +1,69 @@
+﻿@model IEnumerable<WebLongChau.Models.Cartitem>
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">
+                                <div class="d-flex align-item-center">
+                                    <img src="~/ProductImage/@item.ProductIamge" class="img-fluid me-5 rounded-circle"
+                                         style="width:80px;height: 80px" alt="@item.ProductName" />
+                                </div>
+                            </th>
+                            <td>
+                                <p class="mb-0 mt-4">
+                                    <a asp-action="" asp-controller="" asp-route-id="@item.ProductId">@item.ProductName</a>
+                                </p>
+                            </td>
+                            <td>
+                                <p class="mb-0 mt-4">$ @item.Price</p>
+                            </td>
+                            <td>
+                                <div class="input-group quatity mt-4" style="width:100px;">
+                                    <div class="input-group-btn">
+                                        <buttom class="btn btn-sm btn-minus rounded-circle bg-light border">
+                                            <i class="fa fa-minus"></i>
+                                        </buttom>
+                                    </div>
+                                    <input type="text" class="form-control form-control-sm text-center border-0" value="@item.Quantity" />
+                                    <div class="input-group-btn">
+                                        <buttom class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                            <i class="fa fa-plus"></i>
+                                        </buttom>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="mb-0 mt-4">$ item.Amount</p>
+                            </td>
+                            <td>
+                                <buttom class="btn btn-md rounded-circle bg-light border mt-4">
+                                    <i class="fa fa-times text-danger"></i>
+                                </buttom>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
