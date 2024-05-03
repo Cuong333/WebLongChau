@@ -11,7 +11,7 @@ namespace WebLongChau.Controllers
         LongChauWebContext db = new LongChauWebContext();
         private readonly ILogger<HomeController> _logger;
         public HomeController(ILogger<HomeController> logger)
-        {
+        {   
             _logger = logger;
         }
 
@@ -34,10 +34,14 @@ namespace WebLongChau.Controllers
             return View();
         }
 
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    return View(new Models.ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
+        public IActionResult ProductDetail(int ProductId)
+        {
+            var product = db.Products.SingleOrDefault(x => x.ProductId == ProductId);
+            var productImage = db.Products.Where(x => x.ProductId == ProductId).ToList();
+
+            ViewBag.ProductImage = productImage;
+            return View(product); // Pass the product object instead of ProductId
+        }
+
     }
 }

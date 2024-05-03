@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="zxx">
 
 <head>
@@ -57,9 +60,18 @@
                                     <li><a href="#">English</a></li>
                                 </ul>
                             </div>
+                      
                             <div class="header__top__right__auth">
-                                <a method="post" asp-action="Register"><i class="fa fa-user"></i>Register</a>  |
-                                <a method="post" asp-action="Login"><i></i> Login</a> 
+                                @if (HttpContextAccessor.HttpContext.Session.GetString("UserName") != null)
+                                {
+                                    <span>Welcome, @HttpContextAccessor.HttpContext.Session.GetString("UserName") |</span>
+                                    <a asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out"></i> Logout</a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Account" asp-action="Register"><i class="fa fa-user"></i> Register |</a>
+                                    <a asp-controller="Account" asp-action="Login"><i></i> Login</a>
+                                }
                             </div>
                         </div>
                     </div>
@@ -176,24 +188,7 @@
         </div>
     </section>
     <!-- Featured Section End -->
-    <!-- Banner Begin -->
-    <div class="banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="banner__pic">
-                        <img src="~/productimage/img/abc.png" />
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="banner__pic">
-                        <img src="~/productimage/img/tiemchung.png" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Banner End -->
+
     <!-- Latest Product Section Begin -->
     <section class="latest-product spad">
         <div class="container">
@@ -211,8 +206,8 @@
                                         <h6>Crab Pool Security</h6>
                                         <span>$30.00</span>
                                     </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
+                                </a> 
+                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
                                         <img src="~/productimage/img/viennang.png" />
                                     </div>
@@ -390,7 +385,7 @@
                                     </div>
                                 </a>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </div>
@@ -411,45 +406,45 @@
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
                         <div class="blog__item__pic">
-                            <img src="../LayoutIndex/img/blog/blog-1.jpg" alt="">
+                            <img src="../ProductImage/img/2.jpeg" alt="">
                         </div>
                         <div class="blog__item__text">
                             <ul>
                                 <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
                                 <li><i class="fa fa-comment-o"></i> 5</li>
                             </ul>
-                            <h5><a href="#">Cooking tips make cooking simple</a></h5>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+                            <h5><a href="#">Long Chau pioneered launching the first electronic vaccination book in Vietnam</a></h5>
+                            <p>Following the success of building a nationwide vaccination system, Long Chau vaccination officially launched the first electronic vaccination book in Vietnam with many outstanding features such as: looking up vaccination history, Schedule reminders, schedule injections... </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
                         <div class="blog__item__pic">
-                            <img src="../LayoutIndex/img/blog/blog-2.jpg" alt="">
+                            <img src="../ProductImage/img/1.jpeg" alt="">
                         </div>
                         <div class="blog__item__text">
                             <ul>
                                 <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
                                 <li><i class="fa fa-comment-o"></i> 5</li>
                             </ul>
-                            <h5><a href="#">6 ways to prepare breakfast for 30</a></h5>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+                            <h5><a href="#">FPT Long Chau and Servier cooperate to promote treatment compliance in Vietnam</a></h5>
+                            <p>FPT Long Chau and Servier Vietnam cooperate to implement a communication project to raise awareness about treatment compliance to increase the effectiveness of treatment for common chronic diseases such as cardiovascular disease, hypertension, and diabetes in Vietnam. .</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
                         <div class="blog__item__pic">
-                            <img src="../LayoutIndex/img/blog/blog-3.jpg" alt="">
+                            <img src="../ProductImage/img/3.jpeg" alt="">
                         </div>
                         <div class="blog__item__text">
                             <ul>
                                 <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
                                 <li><i class="fa fa-comment-o"></i> 5</li>
                             </ul>
-                            <h5><a href="#">Visit the clean farm in the US</a></h5>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+                            <h5><a href="#">FPT Long Chau strategically cooperates with IHH Healthcare Singapore Group to bring advanced medicine closer to Vietnamese people</a></h5>
+                            <p>City. Ho Chi Minh, January 29, 2024 - FPT Long Chau and Asia's leading private healthcare group IHH Healthcare have just signed a strategic cooperation agreement with the goal of bringing advanced medicine closer to Vietnamese people. , for the mission of comprehensive health care for the people. </p>
                         </div>
                     </div>
                 </div>
