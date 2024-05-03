@@ -17,6 +17,9 @@
     <thead>
         <tr class="table-warning">
             <th>
+                Product ID
+            </th>
+            <th>
                Product Name
             </th>
             <th>
@@ -38,7 +41,10 @@
             {
 
             <tr class="table-secondary">
-                    <td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductId)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
                 <td>
