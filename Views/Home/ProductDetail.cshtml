@@ -43,14 +43,17 @@
                     <p>
                        @Model.Description
                     </p>
-                    <div class="product__details__quantity">
-                        <div class="quantity">
-                            <div class="pro-qty">
-                                <input type="text" value="1">
+                    <form method="post" asp-action="AddToCart" asp-controller="Cart" asp-route-ProductId="@Model.ProductId">
+                        <div class="product__details__quantity">
+                            <div class="quantity">
+                                <div class="pro-qty">
+                                    <input type="number" value="1" name="quantity" min="1" max="999" step="1">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <button type="button" class="btn btn-primary">ADD To Cart</button>
+                        <button type="submit" class="btn btn-primary">Add To Cart</button>
+                    </form>
+                    
                     <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
                     <ul>
                         <li><b>Availability</b> <span>In Stock</span></li>

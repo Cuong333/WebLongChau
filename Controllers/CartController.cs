@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using WebLongChau.Data;
-using WebLongChau.Models;
 using WebLongChau.Helpers;
+using WebLongChau.Models;
+using WebLongChau.Data;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace WebLongChau.Controllers
+namespace ECommerceMVC.Controllers
 {
-    
-    [Route("AddToCart")]
     public class CartController : Controller
     {
         private readonly LongChauWebContext db;
@@ -17,30 +14,23 @@ namespace WebLongChau.Controllers
         {
             db = context;
         }
-
-        const string Cart_key = "MyCart";
-
-        public List<Cartitem> Cart => HttpContext.Session.Get<List<Cartitem>>(Cart_key)
-            ?? new List<Cartitem>();
-
-        [HttpGet]
+        const string CART_KEY = "MYCART";
+        public List<Cartitem> Cart => HttpContext.Session.Get<List<Cartitem>>(CART_KEY) ?? new List<Cartitem>();
+        // View cart
         public IActionResult Index()
         {
-            return View(Cart);
+            return View();
         }
-
-        [HttpPost]
-        public IActionResult AddToCart(int ProductId, int Quantity = 1)
+        public IActionResult AddToCart(int ProductId, int quantity = 1)
         {
-            var Mycart = Cart;
-            var item = Mycart.SingleOrDefault(p => p.ProductId == ProductId);
+            var cart = Cart;
+            var item = cart.FirstOrDefault(p => p.ProductId == ProductId);
             if (item == null)
             {
-                var product = db.Products.SingleOrDefault(p => p.ProductId == ProductId);
+                var product = db.Products.FirstOrDefault(p => p.ProductId == ProductId);
                 if (product == null)
                 {
-                    TempData["Message"] = $"Product with code not found{ProductId}";
-                    return Redirect("/404");
+                    return View(cart); 
                 }
                 item = new Cartitem
                 {
@@ -48,16 +38,32 @@ namespace WebLongChau.Controllers
                     ProductName = product.ProductName,
                     Price = product.Price ?? 0,
                     ProductIamge = product.ProductIamge ?? string.Empty,
-                    Quantity = Quantity
+                    Quantity = quantity
                 };
-                Mycart.Add(item);
+                cart.Add(item);
             }
             else
             {
-                item.Quantity += Quantity;
+                item.Quantity += quantity; 
             }
-            HttpContext.Session.Set(Cart_key, Mycart);
-            return RedirectToAction("Index");
+
+            HttpContext.Session.Set(CART_KEY, cart); 
+
+            return RedirectToAction("AddToCart"); 
+        }
+
+
+        // Remove cart
+        public IActionResult RemoveCart(int ProductId)
+        {
+            var cart = Cart;
+            var item = cart.SingleOrDefault(p => p.ProductId == ProductId);
+            if (item != null)
+            {
+                cart.Remove(item);
+                HttpContext.Session.Set(CART_KEY, cart);
+            }
+            return RedirectToAction("AddToCart");
         }
     }
 }

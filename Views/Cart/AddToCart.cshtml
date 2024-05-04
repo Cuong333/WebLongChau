@@ -1,0 +1,98 @@
+﻿@model IEnumerable<WebLongChau.Models.Cartitem>
+@using WebLongChau.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Shoping Cart Section Begin -->
+<section class="shoping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="shoping__product">Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Action</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="shoping__cart__item">
+                                        <img src="@Url.Content("~/ProductImage/img/" + item.ProductIamge)" alt="ProductImage" />
+                                        <h5>
+                                            <a asp-action="Index" asp-controller="Home" asp-route-ProductId="@item.ProductId">
+                                                @item.ProductName
+                                            </a>
+                                        </h5>
+                                    </td>
+                                    <td class="shoping__cart__price">
+                                        $@item.Price
+                                    </td>
+                                    <td class="shoping__cart__quantity">
+                                        <input type="number" value="@item.Quantity" min="1" onchange="updateQuantity(@item.ProductId, this.value)">
+                                    </td>
+                                    <td class="shoping__cart__total">
+                                        $@item.Amount
+                                    </td>
+                                    <td class="shoping__cart__item__close">
+                                        <form method="post" action="@Url.Action("RemoveCart", "Cart", new { ProductId = item.ProductId })" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <span class="icon_close"></span> Delete
+                                            </button>
+                                        </form>
+                                    </td>
+
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="shoping__continue">
+                <div class="shoping__discount">
+                    <h5>Discount Codes</h5>
+                    <form action="#">
+                        <input type="text" placeholder="Enter your coupon code">
+                        <button type="submit" class="site-btn">APPLY COUPON</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="shoping__checkout">
+                <h5>Cart Total</h5>
+                <ul>
+                    <li>Subtotal <span>$@Model.Sum(item => item.Amount)</span></li>
+                    <li>Total <span>$@Model.Sum(item => item.Amount)</span></li>
+                </ul>
+                <a href="#" class="btn btn-primary">PROCEED TO CHECKOUT</a>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<script>
+    function updateQuantity(productId, quantity) {
+        var newQuantity = parseInt(quantity, 1);
+        var updateUrl = '@Url.Action("AddToCart", "Cart")' + '?productId=' + productId + '&quantity=' + newQuantity;
+        window.location.href = updateUrl;
+    }
+</script>
+
+<!-- Shoping Cart Section End -->

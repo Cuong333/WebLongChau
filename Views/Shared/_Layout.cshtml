@@ -1,4 +1,6 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
 <link rel="stylesheet" href=@Url.Content("../LayoutIndex/css/bootstrap.min.css") type="text/css">
 <link rel="stylesheet" href=@Url.Content("../LayoutIndex/css/font-awesome.min.css") type="text/css">
 <link rel="stylesheet" href=@Url.Content("../LayoutIndex/css/elegant-icons.css") type="text/css">
@@ -36,7 +38,18 @@
                                 <li><a href="#">English</a></li>
                             </ul>
                         </div>
-                        <a  asp-action="Login"  class="btn btn-primary"><i class="fa fa-user"></i> Login</a>
+                        <div class="header__top__right__auth">
+                            @if (HttpContextAccessor.HttpContext.Session.GetString("UserName") != null)
+                            {
+                                <span>Welcome, @HttpContextAccessor.HttpContext.Session.GetString("UserName") |</span>
+                                <a asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out"></i> Logout</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Register"><i class="fa fa-user"></i> Register |</a>
+                                <a asp-controller="Account" asp-action="Login"><i></i> Login</a>
+                            }
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -53,19 +66,19 @@
             <div class="col-lg-6">
                 <nav class="header__menu">
                     <ul>
-                        <li class="active"><a href="./index.html">Home</a></li>
-                        <li><a href="./shop-grid.html">Shop</a></li>
+                        <li class="active"><a asp-action="Index">Home</a></li>
+                        <li><a asp-action="Index">Shop</a></li>
                         <li>
                             <a href="#">Pages</a>
                             <ul class="header__menu__dropdown">
-                                <li><a href="#" >Shop Details</a></li>
-                                <li><a href="#" >Shopping Cart</a></li>
-                                 <li><a href="#" >Check Out</a></li>
-                                <li><a href="#" >Blog Details</a></li>
+                                <li><a asp-action="Index">Shop Details</a></li>
+                                <li><a asp-action="Index">Shoping Cart</a></li>
+                                <li><a asp-action="Index">Check Out</a></li>
+                                <li><a asp-action="Index">Blog Details</a></li>
                             </ul>
                         </li>
-                        <li><a href="./blog.html">Blog</a></li>
-                        <li><a href="./contact.html">Contact</a></li>
+                        <li><a asp-action="Index">Blog</a></li>
+                        <li><a asp-action="Index">Contact</a></li>
                     </ul>
                 </nav>
             </div>
@@ -136,6 +149,11 @@
         </div>
         </div>
     </footer>
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
     <!-- Footer Section End -->
     <!-- Js Plugins -->
     <script src="../LayoutIndex/js/jquery-3.3.1.min.js"></script>
