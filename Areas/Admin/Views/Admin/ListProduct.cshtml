@@ -70,8 +70,9 @@
                 </td> *@
 
                 <td>
-                     <a type="button" class="btn btn-success" asp-action="EditProduct" asp-route-ProductId="@item.ProductId">Edit</a> | 
-                     <a type="button" class="btn btn-danger" asp-action="DeleteProduct" asp-route-ProductId="@item.ProductId">Delete</a> 
+                     <a type="button" class="btn btn-success" asp-action="EditProduct" asp-route-ProductId="@item.ProductId">Edit</a> |
+                     <a type="button" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete the product @item.ProductName?')" class="btn btn-danger" asp-action="DeleteProduct" asp-route-ProductId="@item.ProductId">Delete</a>
+                    
                 </td>                 
             </tr>         
         }

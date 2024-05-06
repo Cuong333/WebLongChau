@@ -20,7 +20,7 @@
                                 <th>Price</th>
                                 <th>Quantity</th>
                                 <th>Total</th>
-                                <th>Action</th> 
+                              
                             </tr>
                         </thead>
                         <tbody>
@@ -41,6 +41,17 @@
                                     <td class="shoping__cart__quantity">
                                         <input type="number" value="@item.Quantity" min="1" onchange="updateQuantity(@item.ProductId, this.value)">
                                     </td>
+
+                                    @* <td>
+                                    <div class="shoping__cart__quantity">
+                                        <div class="quantity">
+                                            <div class="pro-qty">
+                                                <input type="number" value="@item.Quantity" min="1" onchange="updateQuantity(@item.ProductId, this.value)">      
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </td> *@
+
                                     <td class="shoping__cart__total">
                                         $@item.Amount
                                     </td>
